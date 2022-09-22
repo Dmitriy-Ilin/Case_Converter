@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Case Converter</title>
+</head>
+<body>
+<div class="title">Case Converter</div>
+<textarea></textarea>
+<div class="button-container">
+    <button id="upper-case">upper case</button>
+    <button id="lower-case">lower case</button>
+    <button id="proper-case">proper case</button>
+    <button id="sentence-case">sentence case</button>
+    <button id="save-text-file">Save Text File</button>
+</div>
+
+<script>
+    let textArea = document.querySelector("textarea");
+    document.getElementById("upper-case").addEventListener("click", function () {
+        textArea.value = textArea.value.toUpperCase();
+    });
+    document.getElementById("lower-case").addEventListener("click", function () {
+       textArea.value = textArea.value.toLowerCase();
+    });
+    document.getElementById("proper-case").addEventListener("click", function () {
+        textArea.value = textArea.value.toLowerCase().split(" ").map(x => x[0].toUpperCase() + x.slice(1)).join(" ");
+    });
+    document.getElementById("sentence-case").addEventListener("click", function () {
+        textArea.value = textArea.value.toLowerCase().split(". ").map(x => x[0].toUpperCase() + x.slice(1)).join(". ");
+    });
+
+    function download(filename, text) {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+    document.getElementById("save-text-file").addEventListener("click", function() {
+        let text = document.querySelector("textarea").value;
+        download("text.txt", text)
+    }, false);
+</script>
+</body>
+</html>
